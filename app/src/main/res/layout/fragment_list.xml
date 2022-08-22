@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.pokemonlist.list.ListFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:weightSum="5">
+
+            <EditText
+                android:id="@+id/etListSearch"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"/>
+
+            <ImageButton
+                android:id="@+id/btnListSearch"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:src="@android:drawable/ic_menu_search"/>
+
+        </LinearLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</FrameLayout>

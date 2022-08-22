@@ -17,6 +17,10 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String","API_BASE_URL","\"https://pokeapi.co/api/v2/\""
+        buildConfigField "String","IMAGE_API_BASE_URL","\"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\""
+
     }
 
     buildTypes {
@@ -36,6 +40,10 @@ android {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 }
 

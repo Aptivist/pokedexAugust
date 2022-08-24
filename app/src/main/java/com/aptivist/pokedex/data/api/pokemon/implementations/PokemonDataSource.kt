@@ -5,20 +5,25 @@ import com.aptivist.pokedex.data.api.pokemon.retrofit.IPokeAPI
 import com.aptivist.pokedex.data.api.pokemon.toDomainPokemon
 import com.aptivist.pokedex.domain.IPokemonDataSource
 import com.aptivist.pokedex.domain.pokemon.Pokemon
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.lang.Exception
 import javax.inject.Inject
 
 class PokemonDataSource @Inject constructor(private val pokeAPI: IPokeAPI) : IPokemonDataSource {
 
-    override suspend fun getPokemonByNameOrID(searchTerm: String): Pokemon {
+    override suspend fun getPokemonByNameOrID(searchTerm: String): Pokemon? {
         val response = pokeAPI.getPokemonByNameOrID(searchTerm)
         if (response.isSuccessful){
             return response.body()?.toDomainPokemon() ?: throw Resources.NotFoundException("No pokemon found")
         }
-        else
-        {
-            throw Exception(response.message())
+
+        kotlin.runCatching {
+            val errorMessage = response.errorBody()?.string()
+            throw Exception(errorMessage)
         }
+
+        return null
     }
 
 }

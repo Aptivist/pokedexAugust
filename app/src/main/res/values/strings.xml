@@ -2,4 +2,6 @@
     <string name="app_name">pokedex</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="height_label">Height: %s</string>
+    <string name="weight_label">Weight: %s</string>
 </resources>

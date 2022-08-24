@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.aptivist.pokedex.databinding.FragmentListBinding
 import com.aptivist.pokedex.ui.pokemonlist.PokemonListViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 class ListFragment : Fragment() {
 
@@ -22,6 +24,11 @@ class ListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentListBinding.inflate(inflater, container, false)
+        viewModel.gotPokemon.observe(viewLifecycleOwner) {
+            findNavController().navigate(
+                ListFragmentDirections.actionListFragmentToDetailFragment()
+            )
+        }
         return binding.root
     }
 

@@ -12,18 +12,13 @@ import javax.inject.Inject
 
 class PokemonDataSource @Inject constructor(private val pokeAPI: IPokeAPI) : IPokemonDataSource {
 
-    override suspend fun getPokemonByNameOrID(searchTerm: String): Pokemon? {
+    override suspend fun getPokemonByNameOrID(searchTerm: String): Pokemon {
         val response = pokeAPI.getPokemonByNameOrID(searchTerm)
+        var pokemon : Pokemon? = null
         if (response.isSuccessful){
-            return response.body()?.toDomainPokemon() ?: throw Resources.NotFoundException("No pokemon found")
+            pokemon = response.body()?.toDomainPokemon()
         }
-
-        kotlin.runCatching {
-            val errorMessage = response.errorBody()?.string()
-            throw Exception(errorMessage)
-        }
-
-        return null
+        return pokemon ?: throw Resources.NotFoundException("No pokemon found")
     }
 
 }

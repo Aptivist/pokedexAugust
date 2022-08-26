@@ -5,18 +5,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aptivist.pokedex.domain.IPokemonDataSource
 import com.aptivist.pokedex.domain.pokemon.Pokemon
-import com.hadilq.liveevent.LiveEvent
+import com.aptivist.pokedex.ui.pokemonlist.list.ListUIEvents
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class PokemonListViewModel @Inject constructor (private var dataSource: IPokemonDataSource) : ViewModel() {
 
-    private val _gotPokemon = LiveEvent<Any>()
-    val gotPokemon : LiveData<Any>
-        get() = _gotPokemon
+    private val _gotPokemon = Channel<ListUIEvents>()
+    val gotPokemon = _gotPokemon.receiveAsFlow()
 
     private var _currentPokemon : Pokemon? = null
     val currentPokemon : Pokemon?
@@ -29,10 +30,9 @@ class PokemonListViewModel @Inject constructor (private var dataSource: IPokemon
             viewModelScope.launch(Dispatchers.IO) {
                 try {
                     _currentPokemon = dataSource.getPokemonByNameOrID(searchText)
-                    println(_currentPokemon)
-                    _gotPokemon.postValue(true)
+                    _gotPokemon.trySend(ListUIEvents.SearchNavigationEvent)
                 } catch (e: Exception) {
-                    println(e.message)
+                    _gotPokemon.trySend(ListUIEvents.ShowErrorEvent(e.message ?: "Unknown"))
                 }
             }
         }

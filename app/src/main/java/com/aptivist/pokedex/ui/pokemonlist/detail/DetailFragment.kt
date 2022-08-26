@@ -26,6 +26,7 @@ class DetailFragment : Fragment() {
     private val statsAdapter by lazy { StatsAdapter() }
     private val typesAdapter by lazy { TextAdapter() }
     private val movesAdapter by lazy { TextAdapter() }
+    private val iconAdapter by lazy { ImageAdapter(imageLoader) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,6 +52,7 @@ class DetailFragment : Fragment() {
                 )
             }
 
+            vpDetailsImages.adapter = iconAdapter
             rvDetailStats.adapter = statsAdapter
             rvDetailMoves.adapter = movesAdapter
             rvDetailTypes.adapter = typesAdapter
@@ -58,6 +60,7 @@ class DetailFragment : Fragment() {
             statsAdapter.submitList(viewModel.currentPokemon?.stats)
             movesAdapter.submitList(viewModel.currentPokemon?.moves)
             typesAdapter.submitList(viewModel.currentPokemon?.types)
+            iconAdapter.submitList(viewModel.currentPokemon?.sprites?.icons)
         }
 
 

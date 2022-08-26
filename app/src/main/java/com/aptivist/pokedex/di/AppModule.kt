@@ -1,6 +1,9 @@
 package com.aptivist.pokedex.di
 
 import com.aptivist.pokedex.BuildConfig
+import com.aptivist.pokedex.domain.IImageLoader
+import com.aptivist.pokedex.domain.framework.PicassoImageLoader
+import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,5 +24,13 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
+    @Singleton
+    @Provides
+    fun providePicasso() : Picasso = Picasso.get()
+
+    @Singleton
+    @Provides
+    fun provideImageLoader(picasso: Picasso) : IImageLoader = PicassoImageLoader(picasso)
 
 }

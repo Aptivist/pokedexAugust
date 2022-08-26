@@ -7,8 +7,12 @@ import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.aptivist.pokedex.databinding.FragmentListBinding
 import com.aptivist.pokedex.ui.pokemonlist.PokemonListViewModel
+import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 
 class ListFragment : Fragment() {
 
@@ -22,6 +26,18 @@ class ListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentListBinding.inflate(inflater, container, false)
+        lifecycleScope.launchWhenStarted {
+            viewModel.gotPokemon.collect {
+                when(it){
+                    ListUIEvents.SearchNavigationEvent ->  findNavController().navigate(
+                        ListFragmentDirections.actionListFragmentToDetailFragment()
+                    )
+                    is ListUIEvents.ShowErrorEvent -> {
+                        Snackbar.make(binding.root, it.message, Snackbar.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
         return binding.root
     }
 

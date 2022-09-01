@@ -2,8 +2,11 @@ package com.aptivist.pokedex.data.api.pokemon
 
 import com.aptivist.pokedex.data.api.pokemon.models.PokeDao
 import com.aptivist.pokedex.data.api.pokemon.models.StatsDao
+import com.aptivist.pokedex.data.api.pokemon.models.pokemonlist.PokemonResultListDAO
+import com.aptivist.pokedex.data.api.pokemon.models.pokemonlist.ResultDAO
 import com.aptivist.pokedex.domain.pokemon.Pokemon
 import com.aptivist.pokedex.domain.pokemon.PokemonImage
+import com.aptivist.pokedex.domain.pokemon.PokemonListItem
 import com.aptivist.pokedex.domain.pokemon.PokemonStats
 
 fun PokeDao.toDomainPokemon() : Pokemon {
@@ -18,5 +21,11 @@ fun PokeDao.toDomainPokemon() : Pokemon {
 
 fun StatsDao.toDomainPokemonStats() : PokemonStats {
     return PokemonStats(this.base_stat, this.stat.name)
+}
 
+
+fun ResultDAO.toDomainPokemonList() : PokemonListItem {
+    val arrayId = this.url.split("/")
+    val id = arrayId[arrayId.lastIndex - 1]
+    return PokemonListItem(id.toInt(),this.name)
 }

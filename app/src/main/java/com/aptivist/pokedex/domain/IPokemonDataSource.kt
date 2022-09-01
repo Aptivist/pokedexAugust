@@ -7,5 +7,5 @@ interface IPokemonDataSource {
 
     suspend fun getPokemonByNameOrID(searchTerm: String) : Pokemon
 
-    suspend fun getPokemonList(offset : Int, limit : Int): List<PokemonListItem>{return emptyList()}
+    suspend fun getPokemonList(offset : Int, limit : Int): List<PokemonListItem>
 }

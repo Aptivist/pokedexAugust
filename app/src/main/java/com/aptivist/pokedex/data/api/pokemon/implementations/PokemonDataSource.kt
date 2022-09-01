@@ -25,7 +25,7 @@ class PokemonDataSource @Inject constructor(private val pokeAPI: IPokeAPI) : IPo
         val response = pokeAPI.getPokemonList(offset,limit)
         var listPokemon = ""
         if(response.isSuccessful){
-            //listPokemon = response.body()?.to
+            listPokemon = response.body()?.toDomainPokemonList()
         }
         return listPokemon ?: throw Resources.NotFoundException("No pokemon found")
     }

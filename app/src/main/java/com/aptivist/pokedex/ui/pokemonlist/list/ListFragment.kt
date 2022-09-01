@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.aptivist.pokedex.databinding.FragmentListBinding
 import com.aptivist.pokedex.ui.pokemonlist.PokemonListViewModel
+import com.aptivist.pokedex.ui.pokemonlist.detail.StatsAdapter
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,6 +20,8 @@ class ListFragment : Fragment() {
     private lateinit var binding: FragmentListBinding
 
     private val viewModel: PokemonListViewModel by activityViewModels()
+
+    private val pokemonListAdapter by lazy { PokemonListAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,6 +38,7 @@ class ListFragment : Fragment() {
                     is ListUIEvents.ShowErrorEvent -> {
                         Snackbar.make(binding.root, it.message, Snackbar.LENGTH_SHORT).show()
                     }
+                    is ListUIEvents.UpdatePokemonList -> pokemonListAdapter.submitList(it.pokemonList)
                 }
             }
         }
@@ -51,6 +55,8 @@ class ListFragment : Fragment() {
         binding.btnListSearch.setOnClickListener {
             viewModel.getPokemon()
         }
+
+        binding.recyclerView.adapter = pokemonListAdapter
 
     }
 }

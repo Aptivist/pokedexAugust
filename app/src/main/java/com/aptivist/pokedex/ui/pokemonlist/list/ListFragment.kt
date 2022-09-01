@@ -41,7 +41,11 @@ class ListFragment : Fragment() {
                     is ListUIEvents.UpdatePokemonList -> pokemonListAdapter.submitList(it.pokemonList)
                 }
             }
+
+
         }
+
+
         return binding.root
     }
 
@@ -57,6 +61,8 @@ class ListFragment : Fragment() {
         }
 
         binding.recyclerView.adapter = pokemonListAdapter
+
+        viewModel.getPokemonList()
 
     }
 }

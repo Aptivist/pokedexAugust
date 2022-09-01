@@ -21,4 +21,13 @@ class PokemonDataSource @Inject constructor(private val pokeAPI: IPokeAPI) : IPo
         return pokemon ?: throw Resources.NotFoundException("No pokemon found")
     }
 
+    override suspend fun getPokemonList(offset: Int, limit : Int) : String {
+        val response = pokeAPI.getPokemonList(offset,limit)
+        var listPokemon = ""
+        if(response.isSuccessful){
+            //listPokemon = response.body()?.to
+        }
+        return listPokemon ?: throw Resources.NotFoundException("No pokemon found")
+    }
+
 }

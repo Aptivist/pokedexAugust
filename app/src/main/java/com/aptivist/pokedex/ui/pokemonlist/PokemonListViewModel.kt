@@ -42,5 +42,16 @@ class PokemonListViewModel @Inject constructor (private var dataSource: IPokemon
         searchText = text.toString()
     }
 
+    fun getPokemonList(){
+        viewModelScope.launch(Dispatchers.IO){
+            try {
+                val pokemonList = dataSource.getPokemonList(0,20)
+                _gotPokemon.trySend(ListUIEvents.UpdatePokemonList(pokemonList))
+            }catch (e: Exception) {
+                _gotPokemon.trySend(ListUIEvents.ShowErrorEvent(e.message ?: "Unknown"))
+            }
+        }
+    }
+
 
 }

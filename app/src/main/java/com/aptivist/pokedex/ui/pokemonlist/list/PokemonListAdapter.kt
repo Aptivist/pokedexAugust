@@ -8,12 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aptivist.pokedex.databinding.TextListItemBinding
 import com.aptivist.pokedex.domain.pokemon.PokemonListItem
 
-class PokemonListAdapter : ListAdapter<PokemonListItem, PokemonListAdapter.TextViewHolder>(DiffCallPokemonItem()) {
+class PokemonListAdapter(private val onPokemonSelected: (PokemonListItem) -> Unit) : ListAdapter<PokemonListItem, PokemonListAdapter.TextViewHolder>(DiffCallPokemonItem()) {
 
     inner class TextViewHolder(private val itemBinding: TextListItemBinding) : RecyclerView.ViewHolder(itemBinding.root){
         fun bind(value : PokemonListItem) {
             with(itemBinding){
                 tvTextItemValue.text = value.name
+                cvTextItemElement.setOnClickListener {
+                    onPokemonSelected(value)
+                }
             }
         }
     }

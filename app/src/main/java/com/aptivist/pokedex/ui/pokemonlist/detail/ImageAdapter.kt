@@ -23,7 +23,7 @@ class ImageAdapter(private val imageLoader: IImageLoader) : ListAdapter<String, 
     }
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        getItem(position)?.let { holder.bind(it) }
     }
 }
 

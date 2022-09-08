@@ -15,6 +15,7 @@ import com.aptivist.pokedex.ui.pokemonlist.PokemonListViewModel
 import com.aptivist.pokedex.ui.pokemonlist.detail.StatsAdapter
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 class ListFragment : Fragment() {
 
@@ -68,15 +69,18 @@ class ListFragment : Fragment() {
 
         binding.recyclerView.adapter = pokemonListAdapter
 
-        setObservers()
-
         viewModel.getPokemonList()
+
+        setObservers()
 
     }
 
     private fun setObservers() {
-        viewModel.pokemonList.observe(viewLifecycleOwner) {
-            pokemonListAdapter.submitList(it)
+
+        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+            viewModel.pokemonList.collectLatest {
+                pokemonListAdapter.submitData(it)
+            }
         }
     }
 }

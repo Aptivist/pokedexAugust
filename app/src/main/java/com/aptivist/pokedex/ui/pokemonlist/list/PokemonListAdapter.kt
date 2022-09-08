@@ -2,13 +2,15 @@ package com.aptivist.pokedex.ui.pokemonlist.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingData
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.aptivist.pokedex.databinding.TextListItemBinding
 import com.aptivist.pokedex.domain.pokemon.PokemonListItem
 
-class PokemonListAdapter(private val onPokemonSelected: (PokemonListItem) -> Unit) : ListAdapter<PokemonListItem, PokemonListAdapter.TextViewHolder>(DiffCallPokemonItem()) {
+class PokemonListAdapter(private val onPokemonSelected: (PokemonListItem) -> Unit) : PagingDataAdapter<PokemonListItem, PokemonListAdapter.TextViewHolder>(DiffCallPokemonItem()) {
 
     inner class TextViewHolder(private val itemBinding: TextListItemBinding) : RecyclerView.ViewHolder(itemBinding.root){
         fun bind(value : PokemonListItem) {
@@ -26,7 +28,7 @@ class PokemonListAdapter(private val onPokemonSelected: (PokemonListItem) -> Uni
     }
 
     override fun onBindViewHolder(holder: TextViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        getItem(position)?.let { holder.bind(it) }
     }
 }
 
